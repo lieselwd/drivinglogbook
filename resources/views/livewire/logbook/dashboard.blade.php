@@ -1,0 +1,9 @@
+<div>
+    <x-slot:drawerPageTitle>
+        Dashboard
+    </x-slot:drawerPageTitle>
+    <x-slot:navTitle>
+        Dashboard
+    </x-slot:navTitle>
+asd
+</div>
