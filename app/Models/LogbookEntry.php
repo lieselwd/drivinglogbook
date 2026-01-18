@@ -6,6 +6,7 @@ use App\Data\LocationData;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -36,6 +37,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LogbookEntry whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LogbookEntry withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LogbookEntry withoutTrashed()
+ * @property string|null $vehicle_id
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LogbookEntry whereVehicleId($value)
  * @mixin \Eloquent
  */
 class LogbookEntry extends Model
@@ -49,11 +53,17 @@ class LogbookEntry extends Model
         'end_datetime',
         'description',
         'user_id',
+        'vehicle_id',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class);
     }
 
     protected function casts(): array

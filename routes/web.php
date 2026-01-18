@@ -15,6 +15,11 @@ Route::prefix('logbook')->middleware('auth')->name('logbook.')->group(function (
     Route::livewire('entry/{logbookEntry}', \App\Livewire\Logbook\EntryDetails::class)->name('entry-details');
 });
 
+Route::prefix('vehicles')->middleware('auth')->name('vehicles.')->group(function () {
+    Route::livewire('/vehicle/{vehicle}', \App\Livewire\Vehicles\VehicleDetails::class)->name('vehicle-details');
+    Route::livewire('/', \App\Livewire\Vehicles\AllVehicles::class)->name('all-vehicles');
+});
+
 Route::get('/test', function () {
    dump(\App\Models\LogbookEntry::latest()->first()->start_location);
 });
