@@ -191,6 +191,5 @@ return [
 
     'release_token' => 'a',
 
-    'csp_safe' => false,
-
+    'csp_safe' => false
 ];
