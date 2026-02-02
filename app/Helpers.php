@@ -19,3 +19,14 @@ if (! function_exists('createSessionFlashInfo')) {
         ];
     }
 }
+
+if (! function_exists('isNullOrEmptyString')) {
+    /**
+     * @param string|null $str
+     * @return bool
+     */
+    function isNullOrEmptyString(string|null $str)
+    {
+        return $str === null || trim($str) === '';
+    }
+}

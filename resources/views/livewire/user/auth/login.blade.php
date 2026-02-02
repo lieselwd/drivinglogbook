@@ -4,17 +4,38 @@
         <div class="bg-base-100 p-8 rounded-lg shadow-xl max-w-md w-full">
             <h1 class="text-3xl font-semibold">Login to Driving Logbook</h1>
             <div class="flex w-full flex-col">
+                <form wire:submit="authenticate">
                 <div class="flex flex-col space-y-3 my-3">
+                    @if($errors->any())
+                        <div class="alert alert-error">
+                            <div class="alert-title">We cannot log you in</div>
+                            <ul class="alert">
+                                @foreach($errors->all() as $error)
+                                    <li>
+                                        {{ $error }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <label for="" class="input">Email address
-                        <input type="text" class="grow">
+                        <input wire:model.blur="email" type="text" class="grow">
                     </label>
                     <label for="" class="input">Password
-                        <input type="password" class="grow">
+                        <input wire:model.blur="password" type="password" class="grow">
                     </label>
+                    <div class="flex flex-row space-x-2">
+                        <input wire:model="rememberMe" type="checkbox" class="checkbox">
+                        <div>Remember me</div>
+                    </div>
                 </div>
                 <div class="flex flex-row">
-                    <button class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary data-loading:btn-disabled">
+                        <span class="in-data-loading:hidden">Login</span>
+                        <span class="not-in-data-loading:hidden">Logging in...</span>
+                    </button>
                 </div>
+                </form>
                 <div class="divider">OR</div>
                 <div class="flex flex-row gap-2 w-full">
                     {{--                <form>--}}
@@ -41,7 +62,7 @@
                         <span wire:loading class="loading loading-spinner"></span>
                         Sign-in with Google
                     </button>
-                    <button href="#" class="btn flex-1 grow">Make an account</button>
+                    <a href="{{ route('user.auth.register') }}" wire:navigate class="btn flex-1 grow">Make an account</a>
                 </div>
             </div>
         </div>

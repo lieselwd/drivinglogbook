@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -41,9 +44,11 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSocialiteRefreshToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSocialiteToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Logbook> $approverFor
+ * @property-read int|null $approver_for_count
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -75,6 +80,16 @@ class User extends Authenticatable
         'socialite_token',
         'socialite_refresh_token',
     ];
+
+    public function approverFor(): BelongsToMany
+    {
+        return $this->belongsToMany(Logbook::class, 'logbook_approvers', 'user_id', 'logbook_id');
+    }
+
+    public function logbooks(): HasMany
+    {
+        return $this->hasMany(Logbook::class, 'user_id');
+    }
 
     /**
      * Get the attributes that should be cast.
